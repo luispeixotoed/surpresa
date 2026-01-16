@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>presente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: hsl(240, 10%, 8%);
+      --foreground: hsl(0, 0%, 98%);
+      --card: hsl(240, 10%, 12%);
+      --card-foreground: hsl(0, 0%, 98%);
+      --muted: hsl(240, 10%, 18%);
+      --muted-foreground: hsl(240, 5%, 65%);
+      --border: hsl(240, 10%, 20%);
+      --love-pink: hsl(340, 82%, 52%);
+      --love-pink-glow: hsl(340, 100%, 65%);
+      --love-purple: hsl(280, 60%, 50%);
+      --love-gold: hsl(45, 100%, 60%);
+      --gradient-love: linear-gradient(135deg, hsl(340, 82%, 52%), hsl(280, 60%, 50%));
+      --shadow-glow: 0 0 40px hsla(340, 82%, 52%, 0.4);
+      --shadow-card: 0 8px 32px hsla(0, 0%, 0%, 0.4);
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+    }
+
+    .glass-card {
+      background: hsla(240, 10%, 12%, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid hsla(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .glow-effect {
+      box-shadow: var(--shadow-glow);
+    }
+
+    .gradient-text {
+      background: var(--gradient-love);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, 
+        hsla(240, 10%, 8%, 0.7), 
+        hsla(240, 10%, 8%, 0.5), 
+        var(--background));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 1rem;
+      max-width: 64rem;
+      margin: 0 auto;
+    }
+
+    .hero-heart {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 1.5rem;
+      color: var(--love-pink);
+      animation: heartPulse 1.5s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      color: var(--muted-foreground);
+      margin-bottom: 1rem;
+    }
+
+    .hero-names {
+      font-size: 1.25rem;
+      color: var(--love-pink);
+      font-weight: 500;
+      margin-bottom: 3rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 1.5s infinite;
+    }
+
+    .scroll-indicator svg {
+      width: 2rem;
+      height: 2rem;
+      color: var(--love-pink);
+    }
+
+    /* Floating Hearts */
+    .floating-hearts {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: hsla(340, 82%, 52%, 0.3);
+      animation: floatUp 15s linear infinite;
+    }
+
+    /* ===== COUNTDOWN SECTION ===== */
+    .countdown {
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, hsla(340, 82%, 52%, 0.2), hsla(280, 60%, 50%, 0.2));
+      filter: blur(80px);
+      opacity: 0.3;
+    }
+
+    .countdown-container {
+      max-width: 72rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .countdown-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .countdown-date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--muted-foreground);
+    }
+
+    .countdown-title {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .countdown-subtitle {
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .countdown-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .countdown-item {
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .countdown-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px hsla(340, 82%, 52%, 0.3);
+    }
+
+    .countdown-value {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .countdown-label {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-top: 0.5rem;
+    }
+
+    .countdown-heart {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .countdown-heart svg {
+      width: 2rem;
+      height: 2rem;
+      color: var(--love-pink);
+      animation: heartPulse 1.5s ease-in-out infinite;
+    }
+
+    /* ===== MEMORIES GALLERY ===== */
+    .memories {
+      padding: 5rem 1rem;
+      position: relative;
+    }
+
+    .memories-container {
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+
+    .memories-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .memories-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--muted-foreground);
+    }
+
+    .memories-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--love-pink);
+    }
+
+    .memories-title {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .memories-subtitle {
+      color: var(--muted-foreground);
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+
+    /* Carousel */
+    .carousel-container {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .carousel-wrapper {
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: relative;
+      aspect-ratio: 16/9;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .carousel-slide {
+        aspect-ratio: 21/9;
+      }
+    }
+
+    .carousel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--background), transparent, transparent);
+    }
+
+    .carousel-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .carousel-info {
+        padding: 2rem;
+      }
+    }
+
+    .carousel-date {
+      color: var(--love-pink);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .carousel-title {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+
+    .carousel-description {
+      color: var(--muted-foreground);
+      margin-top: 0.5rem;
+    }
+
+    /* Navigation */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: hsla(240, 10%, 8%, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--foreground);
+    }
+
+    @media (min-width: 768px) {
+      .carousel-nav {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    .carousel-nav:hover {
+      background: var(--love-pink);
+      color: white;
+    }
+
+    .carousel-nav.prev {
+      left: 0.5rem;
+    }
+
+    .carousel-nav.next {
+      right: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .carousel-nav.prev {
+        left: 1.5rem;
+      }
+      .carousel-nav.next {
+        right: 1.5rem;
+      }
+    }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .carousel-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: var(--muted);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .carousel-dot.active {
+      width: 2rem;
+      background: var(--love-pink);
+    }
+
+    .carousel-dot:hover:not(.active) {
+      background: hsla(340, 82%, 52%, 0.5);
+    }
+
+    /* Thumbnails */
+    .thumbnails {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .thumbnails {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .thumbnail {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .thumbnail:hover {
+      transform: scale(1.05);
+    }
+
+    .thumbnail.active {
+      border-color: var(--love-pink);
+      box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--love-pink);
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbnail-overlay {
+      position: absolute;
+      inset: 0;
+      background: hsla(340, 82%, 52%, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .thumbnail.active .thumbnail-overlay {
+      opacity: 1;
+    }
+
+    .thumbnail-overlay svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--love-pink);
+    }
+
+    /* ===== SPECIAL MESSAGE ===== */
+    .message {
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-bg-hearts {
+      position: absolute;
+      inset: 0;
+      opacity: 0.05;
+    }
+
+    .message-bg-hearts svg {
+      position: absolute;
+    }
+
+    .message-container {
+      max-width: 48rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .message-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .message-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--muted-foreground);
+    }
+
+    .message-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--love-pink);
+    }
+
+    .message-title {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      font-weight: 700;
+    }
+
+    .message-card {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .message-card {
+        padding: 3rem;
+      }
+    }
+
+    /* Envelope State */
+    .envelope {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .envelope-icon {
+      width: 6rem;
+      height: 6rem;
+      border-radius: 1rem;
+      background: var(--gradient-love);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      animation: float 2s ease-in-out infinite;
+      box-shadow: var(--shadow-glow);
+      position: relative;
+    }
+
+    .envelope-icon svg {
+      width: 3rem;
+      height: 3rem;
+      color: white;
+    }
+
+    .envelope-sparkle {
+      position: absolute;
+      top: -0.5rem;
+      right: -0.5rem;
+      color: var(--love-gold);
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .envelope-text {
+      color: var(--muted-foreground);
+      margin-bottom: 2rem;
+    }
+
+    .reveal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: var(--gradient-love);
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .reveal-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 60px hsla(340, 82%, 52%, 0.5);
+    }
+
+    /* Revealed Message */
+    .revealed-message {
+      display: none;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .revealed-message.show {
+      display: block;
+    }
+
+    .envelope.hidden {
+      display: none;
+    }
+
+    .revealed-heart {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 2rem;
+      color: var(--love-pink);
+      animation: heartPulse 1.5s ease-in-out infinite;
+    }
+
+    .message-content {
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .message-content p {
+      margin-bottom: 1.5rem;
+    }
+
+    .message-greeting {
+      color: var(--love-pink);
+      font-weight: 600;
+    }
+
+    .message-signature {
+      color: var(--love-pink);
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      padding-top: 1rem;
+    }
+
+    .message-emojis {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .message-emoji {
+      font-size: 2rem;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .message-emoji:nth-child(2) { animation-delay: 0.2s; }
+    .message-emoji:nth-child(3) { animation-delay: 0.4s; }
+    .message-emoji:nth-child(4) { animation-delay: 0.6s; }
+    .message-emoji:nth-child(5) { animation-delay: 0.8s; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 4rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      border-radius: 50%;
+      background: linear-gradient(to top, hsla(340, 82%, 52%, 0.3), transparent);
+      filter: blur(80px);
+      opacity: 0.2;
+    }
+
+    .footer-container {
+      max-width: 48rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .footer-icons .sparkle {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--love-gold);
+    }
+
+    .footer-icons .heart {
+      width: 3rem;
+      height: 3rem;
+      color: var(--love-pink);
+    }
+
+    .footer-title {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .footer-subtitle {
+      color: var(--muted-foreground);
+      margin-bottom: 2rem;
+    }
+
+    .footer-initials {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-family: var(--font-display);
+    }
+
+    .footer-initial {
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .footer-initial:nth-child(2) { animation-delay: 0.2s; }
+    .footer-initial:nth-child(3) { animation-delay: 0.4s; }
+
+    .footer-copyright {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    /* ===== MUSIC PLAYER ===== */
+    .music-player {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .music-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: var(--gradient-love);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: box-shadow 0.3s;
+    }
+
+    .music-icon.playing {
+      box-shadow: var(--shadow-glow);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .music-info {
+      display: none;
+    }
+
+    @media (min-width: 640px) {
+      .music-info {
+        display: block;
+      }
+    }
+
+    .music-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .music-artist {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    .music-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .music-btn {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--muted);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--foreground);
+    }
+
+    .music-btn:hover {
+      background: var(--love-pink);
+      color: white;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+      50% { opacity: 0.5; transform: scale(0.8) rotate(15deg); }
+    }
+
+    /* SVG Icons */
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPECIAL MESSAGE -->
+  <section class="message">
+    <div class="message-bg-hearts">
+      <svg style="top: 10%; left: 5%;" width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+      <svg style="bottom: 20%; right: 10%;" width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+      <svg style="top: 50%; left: 25%;" width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+    </div>
+    
+    <div class="message-container">
+      <div class="message-header">
+        <div class="message-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <span>Uma mensagem especial</span>
+        </div>
+        <h2 class="message-title">
+          <span class="gradient-text">Do Meu Coração</span>
+        </h2>
+      </div>
+      
+      <div class="message-card glass-card">
+        <div class="envelope" id="envelope">
+          <div class="envelope-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            <div class="envelope-sparkle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+              </svg>
+            </div>
+          </div>
+          <p class="envelope-text">Preparei algo especial para você... Clique para revelar! 💕</p>
+          <button class="reveal-btn" onclick="revealMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            Abrir Mensagem
+          </button>
+        </div>
+        
+        <div class="revealed-message" id="revealedMessage">
+          <svg class="revealed-heart" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+          <div class="message-content">
+            <p><span class="message-greeting">Júlinha,</span></p>
+            <p>Desde quando começamos a conversar, percebi que vc era diferente gosto de te ouvir falar, gosto quando estou junto com vc e principalmente quando chegam suas mensagens kkkk</p>
+            <p>sempre que penso em vc sinto algo diferente, te acho incrivel tudo de bom que consigo imaginar encontro em vc!</p>
+            <p>Obrigado por ser minha melhor amiga, minha paz nos dias difíceis e minha alegria nos dias felizes.</p>
+            <p class="message-signature">Saiba que sempre vou fazer de tudo pra te ver feliz, te amo! ♾️❤️</p>
+          </div>
+          <div class="message-emojis">
+            <span class="message-emoji">❤️</span>
+            <span class="message-emoji">💕</span>
+            <span class="message-emoji">💖</span>
+            <span class="message-emoji">💗</span>
+            <span class="message-emoji">💝</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-glow"></div>
+    <div class="footer-container">
+      <div class="footer-icons">
+        <svg class="sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
+        <svg class="heart" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </svg>
+        <svg class="sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
+      </div>
+      
+      <h2 class="footer-title gradient-text"></h2>
+      <p class="footer-subtitle">Feito com muito amor 💕</p>
+      
+      <div class="footer-copyright">
+        
+      </div>
+    </div>
+  </footer>
+
+  <!-- MUSIC PLAYER -->
+  <div class="music-player glass-card">
+    <div class="music-icon" id="musicIcon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+    </div>
+    <div class="music-info">
+      <p class="music-title">Sua Música</p>
+      <p class="music-artist">November Rain - Guns N' Roses</p>
+    </div>
+    <div class="music-controls">
+      <button class="music-btn" id="playBtn" onclick="togglePlay()">
+        <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <svg id="pauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+          <rect x="6" y="4" width="4" height="16"/>
+          <rect x="14" y="4" width="4" height="16"/>
+        </svg>
+      </button>
+      <button class="music-btn" id="muteBtn" onclick="toggleMute()">
+        <svg id="volumeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <svg id="muteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Audio player para música -->
+  <audio id="audioPlayer" loop preload="auto">
+    <source src="/public/musica.mp3" type="audio/mpeg">
+    <!-- Substitua a URL acima pelo link direto do MP3 da música November Rain -->
+  </audio>
+
+  <script>
+    // ===== MESSAGE REVEAL =====
+    function revealMessage() {
+      document.getElementById('envelope').classList.add('hidden');
+      document.getElementById('revealedMessage').classList.add('show');
+    }
+
+    // ===== MUSIC PLAYER (Audio) =====
+    let isPlaying = false;
+    let isMuted = false;
+    const audio = document.getElementById('audioPlayer');
+
+    function togglePlay() {
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const musicIcon = document.getElementById('musicIcon');
+
+      if (!isPlaying) {
+        audio.play().then(() => {
+          playIcon.style.display = 'none';
+          pauseIcon.style.display = 'block';
+          musicIcon.classList.add('playing');
+          isPlaying = true;
+        }).catch((error) => {
+          console.log('Erro ao tocar:', error);
+        });
+      } else {
+        audio.pause();
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        musicIcon.classList.remove('playing');
+        isPlaying = false;
+      }
+    }
+
+    function toggleMute() {
+      const volumeIcon = document.getElementById('volumeIcon');
+      const muteIcon = document.getElementById('muteIcon');
+
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+
+      volumeIcon.style.display = isMuted ? 'none' : 'block';
+      muteIcon.style.display = isMuted ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
